@@ -70,7 +70,7 @@ class Api extends CI_Controller {
 			';
         }
         if($this->input->get('query') == 'suggestions') {
-            $friends = $this->Api_Model->getAllFriends();
+            $friends = $this->Api_Model->getNotFriends();
             $cardButton = '
 				<a href="#!" class="btn btn-primary">Add Friend</a>
 				<a href="#!" class="btn">Remove</a>

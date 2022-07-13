@@ -42,6 +42,12 @@ class Api_Model extends CI_Model {
 		return $this->db->query($query)->result_array();
 	}
 
+	public function getNotFriends() {
+		$query = "SELECT * FROM users WHERE users.userId != '" . $this->session->userdata('userId') . "' AND users.userId NOT IN (SELECT users.userId FROM users LEFT JOIN user_friends ON users.userId = user_friends.senderId OR users.userId = user_friends.receiverId WHERE user_friends.id IS NOT NULL AND (user_friends.status = 'Accepted' OR user_friends.status = 'Pending') AND ((user_friends.senderId = '" . $this->session->userdata('userId') . "' AND user_friends.receiverId = users.userId) OR (user_friends.receiverId = '" . $this->session->userdata('userId') . "' AND user_friends.senderId = users.userId)));";
+
+		return $this->db->query($query)->result_array();
+	}
+
 	public function getConversations($getConversationsParam = ''){
 		if(!empty($getConversationsParam)) {
 			$query = "SELECT * FROM conversations WHERE (senderId = '" . $this->session->userdata('userId') . "' AND receiverId = '" . $getConversationsParam . "') OR (senderId = '" . $getConversationsParam . "' AND receiverId = '" . $this->session->userdata('userId') . "')";
