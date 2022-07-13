@@ -1,0 +1,59 @@
+:root {
+	--navbar-height: 58.594px;
+	--vh-100-less-navbar: calc(100vh - var(--navbar-height));
+}
+.sidebar {
+	min-width: 75px;
+}
+.sidebar-texts {
+	font-size: 12px;
+}
+@media screen and (min-width: 576px) {
+	.sidebar {
+		min-width: 150px;
+	}
+}
+@media screen and (min-width: 768px) {
+	.sidebar {
+		min-width: 200px;
+	}
+}
+@media screen and (min-width: 992px) {
+	.sidebar {
+		min-width: 250px;
+	}
+	.sidebar-texts {
+		font-size: 14px;
+	}
+}
+.vh-100-less-navbar {
+	height: var(--vh-100-less-navbar);
+}
+.form {
+	max-width: 400px;
+}
+.form-header {
+	font-size: 2rem;
+	font-weight: 600;
+}
+.fs-7 {
+	font-size: 14px;
+}
+.txt-overflow {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.card-img-custom {
+	height: 200px;
+	object-fit: cover;
+}
+.custom-icons {
+	height: 45px;
+	width: 45px;
+	background-color: rgba(33, 37, 37, 0.15);
+}
+.spinner-custom-size {
+	width: 12px;
+	height: 12px;
+}
