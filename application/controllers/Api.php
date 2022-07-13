@@ -80,11 +80,14 @@ class Api extends CI_Controller {
         $response = '';
 
         for($i = 0; $i < count($friends); $i++) {
+			$userId = $friends[$i]['userId'];
             $cardImage = base_url() . 'assets/images/default_profile.jpg';
             $cardContent = '
-				<div class="card-title txt-overflow fw-bold">
-					' . $friends[$i]['firstName'] . ' ' . $friends[$i]['lastName'] . '
-				</div>
+				<a href="' . base_url() . 'profile/' . $friends[$i]['userId'] . '">
+					<div class="card-title text-dark txt-overflow fw-bold">
+						' . $friends[$i]['firstName'] . ' ' . $friends[$i]['lastName'] . '
+					</div>
+				</a>
 				<p class="card-text txt-overflow">
 					23 mutual friends
 				</p>

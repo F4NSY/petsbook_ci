@@ -7,7 +7,7 @@ class Pages extends CI_Controller {
         if(!file_exists(APPPATH . 'views/user/' . $page . '.php')) {
             show_404();
         }
-        $data['page'] = ucfirst($page);
+        $data['page'] = ucfirst($page) . 'aa';
         $this->load->view('user/template/header', $data);
         if($page != 'login' && $page != 'register') {
             $this->load->view('user/template/navbar');
@@ -27,6 +27,20 @@ class Pages extends CI_Controller {
         $this->load->view('user/template/header', $data);
         $this->load->view('user/template/navbar');
 		$this->load->view('user/friends', $data);
+        $this->load->view('user/template/footer');
+    }
+
+    public function profile($param = '')
+    {
+        $isExistingUser = $this->Api_Model->isExistingUser(array('userId' => $param));
+        if(empty($param) || !$isExistingUser) {
+            show_404();
+        }
+        $data['page'] = 'Profile';
+        $data['user'] = $this->Api_Model->getUser(array('userId' => $param))[0];
+        $this->load->view('user/template/header', $data);
+        $this->load->view('user/template/navbar');
+		$this->load->view('user/profile', $data);
         $this->load->view('user/template/footer');
     }
 }
