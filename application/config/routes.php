@@ -2,6 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['default_controller'] = 'Pages';
+$route['chat/(:any)'] = 'Pages/chat/$1';
+$route['chat'] = 'Pages/chat';
 $route['profile/(:any)'] = 'Pages/profile/$1';
 $route['profile'] = 'Pages/profile';
 $route['friends/(:any)'] = 'Pages/friends/$1';

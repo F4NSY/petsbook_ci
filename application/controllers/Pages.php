@@ -43,4 +43,18 @@ class Pages extends CI_Controller {
 		$this->load->view('user/profile', $data);
         $this->load->view('user/template/footer');
     }
+
+    public function chat($param = '')
+    {
+        $isExistingUser = $this->Api_Model->isExistingUser(array('userId' => $param));
+        if(!empty($param) && !$isExistingUser) {
+            show_404();
+        }
+        $data['page'] = 'Chat';
+        $data['user'] = $this->Api_Model->getUser(array('userId' => $param));
+        $this->load->view('user/template/header', $data);
+        $this->load->view('user/template/navbar');
+		$this->load->view('user/chat', $data);
+        $this->load->view('user/template/footer');
+    }
 }

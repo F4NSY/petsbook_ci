@@ -17,5 +17,8 @@
 </div>
 
 <?php include APPPATH . 'views/user/modals/image-modal.php' ;?>
+<script>
+    var user = <?= json_encode($user); ?>;
+</script>
 <script type="text/javascript" src="<?= base_url(); ?>assets/js/constants/chat-string-constants.js"></script>
 <script type="text/javascript" src="<?= base_url(); ?>assets/js/chat.js"></script>

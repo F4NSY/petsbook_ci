@@ -23,7 +23,7 @@
         </div>
         <div>
             <a href="#!" class="btn btn-primary">Add Friend</a>
-			<a href="#!" class="btn">Message</a>
+			<a href="<?= base_url(); ?>chat/<?= $user['userId']; ?>"  class="btn">Message</a>
         </div>
     </div>
 </div>

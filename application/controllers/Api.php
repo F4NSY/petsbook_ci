@@ -124,7 +124,7 @@ class Api extends CI_Controller {
 			}
 			$user = $this->Api_Model->getUser($userId)[0];
 			$response .= '
-				<a href="" class="link-dark" onclick="openConversation(event, \'' . $conversation['conversationId'] . '\')">
+				<a href="" class="link-dark" onclick="openConversation(event, \'' . $conversation['conversationId'] . '\', \'' .  $user['userId'] . '\')">
 					<div class="mb-4 d-flex align-items-center pe-3">
 						<img
 							src="' . $user['profilePicture'] . '"
@@ -153,8 +153,8 @@ class Api extends CI_Controller {
 
 	public function getMessages() {
 		$response = '';
-		$messages = $this->Api_Model->getMessages($this->input->get('conversationId'));
-		if(count($messages) == 0) {
+		$conversation = $this->Api_Model->getConversations($this->input->get('userId'));
+		if(count($conversation) == 0) {
 			$response .= '
 				<div class="text-center fs-4 text-danger">
 					No Messages found!
@@ -162,6 +162,7 @@ class Api extends CI_Controller {
 			';
 			return $this->response->createResponse($this, '', $response, 200, 'ok');
 		}
+		$messages = $this->Api_Model->getMessages($conversation[0]['conversationId']);
 		$userId['userId'] = $messages[0]['senderId'];
 		if($userId['userId'] == $this->session->userdata('userId')) {
 			$userId['userId'] = $messages[0]['receiverId'];
@@ -222,7 +223,7 @@ class Api extends CI_Controller {
 		if($getUserParam['userId'] == $this->session->userdata('userId')) {
 			$getUserParam['userId'] = $users[0]['receiverId'];
 		}
-		$user = $this->Api_Model->getUser($getUserParam)[0];
+		$user = $this->Api_Model->getUser($getUserParam);
 
 		return $this->response->createResponse($this, $user, '', 200, 'ok');
 	}

@@ -1,9 +1,25 @@
 var getUsers;
 var messagesToUserContainer;
 var messagesToMessageContainer;
-var user;
 var messageSearchTerm = '';
 
+if(user.length != 0) {
+	if ($(window).width() >= 768) {
+		$('#messages-container').removeClass(messageContainerClass);
+		$('#messages-container').html(createChatHeader(false, user[0]));
+		clearInterval(messagesToMessageContainer);
+		messagesToMessageContainer = setInterval(() => {
+			getMessages(user[0].userId)
+		}, 500);
+	} else {
+		$('#messages-container').removeClass(messageContainerClass);
+		$('#users-container').html(createChatHeader(true, user[0]));
+		clearInterval(getUsers);
+		messagesToUserContainer = setInterval(() => {
+			getMessages(user[0].userId)
+		}, 500);
+	}
+}
 setGetUsers();
 $('#messageSearchBox')
     .focusin(function() {
@@ -23,19 +39,20 @@ $(window).resize(function () {
 		backToUsers();
 	}
 });
-function openConversation(event, conversationIdParam) {
+function openConversation(event, conversationIdParam, userId) {
 	event.preventDefault();
+	history.replaceState('', '', `${ environment.base_url }chat/${ userId }`);
 	if ($(window).width() >= 768) {
 		getChatUserForHeader(conversationIdParam, '#messages-container', false)
 		clearInterval(messagesToMessageContainer);
 		messagesToMessageContainer = setInterval(() => {
-			getMessages(conversationIdParam)
+			getMessages(userId)
 		}, 500);
 	} else {
 		getChatUserForHeader(conversationIdParam, '#users-container', true)
 		clearInterval(getUsers);
 		messagesToUserContainer = setInterval(() => {
-			getMessages(conversationIdParam)
+			getMessages(userId)
 		}, 500);
 	}
 }
@@ -62,12 +79,12 @@ function setGetUsers() {
 		})
 	}, 500);
 }
-function getMessages(conversationIdParam) {
+function getMessages(userIdParam) {
 	$.ajax({
 		url: environment.base_url + "api/getMessages",
 		type: "get",
 		data: {
-			conversationId: conversationIdParam
+			userId: userIdParam
 		},
 		success: function (response) {
 			$('#chat-box').html(response.html);
@@ -87,7 +104,7 @@ function getChatUserForHeader(conversationIdParam, container, hasBack) {
 		success: function (response) {
 			user = response.data;
 			$('#messages-container').removeClass(messageContainerClass);
-			$(container).html(createChatHeader(hasBack, response.data));
+			$(container).html(createChatHeader(hasBack, user[0]));
 		},
 		error: function (error) {
 			console.log(error);
@@ -98,7 +115,7 @@ $(document).on('submit', '#chatForm', function(e) {
 	e.preventDefault();
 	if(($('#chatContent').val() != "") || ($('#chatImage').val() != "")) {
 		var formData = new FormData(this);
-		formData.append('receiverId', user.userId);
+		formData.append('receiverId', user[0].userId);
 		$.ajax({
 			url: environment.base_url + "api/sendMessage",
 			type: "post",

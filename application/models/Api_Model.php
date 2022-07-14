@@ -78,4 +78,17 @@ class Api_Model extends CI_Model {
 			return false;
 		}
 	}
+
+	public function createConvo($param){
+        $data = array(
+            'conversationId' => $param['conversationId'],
+            'senderId' => $param['senderId'],
+            'receiverId' => $param['receiverId']
+        );
+		if($this->db->insert('conversations', $data)){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
