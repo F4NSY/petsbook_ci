@@ -12,7 +12,7 @@ function getFriends(currentPathParam) {
 			query: currentPathParam,
 		},
 		success: function (response) {
-			$("#friend-lists").html(response.html);
+			$("#friend-list").html(response.html);
 		},
 		error: function (error) {
 			console.log(error);

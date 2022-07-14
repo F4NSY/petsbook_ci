@@ -52,7 +52,7 @@
         </div>
     </div>
     <div class="container-fluid overflow-auto py-4">
-        <div class="row" id="friend-lists">
+        <div class="row" id="friend-list">
         </div>
     </div>
 </div>
