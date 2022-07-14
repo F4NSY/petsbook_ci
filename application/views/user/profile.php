@@ -1,9 +1,9 @@
-<div class="container-fluid">
-    <div class="bg-image">
+<div class="container">
+    <div class="bg-image rounded-6">
         <img src="<?= base_url(); ?>assets/images/default_cover_photo.jpg" alt="" class="w-100" style="height: 25vw; object-fit: cover;">
         <div class="mask" style="background-color: rgba(0, 0, 0, 0.2)"></div>
     </div>
-    <div class="p-3 my-3 bg-light d-flex align-items-center">
+    <div class="p-3 my-3 bg-light d-flex align-items-center rounded-6">
         <img
             src="<?= $user['profilePicture']; ?>"
             class="rounded-circle me-3"
