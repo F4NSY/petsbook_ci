@@ -31,7 +31,7 @@
           <a class="nav-link" href="<?= base_url(); ?>">Home</a>
         </li>
         <li class="nav-item mx-lg-2">
-          <a class="nav-link" href="#">Marketplace</a>
+          <a class="nav-link" href="<?= base_url(); ?>marketplace">Marketplace</a>
         </li>
         <li class="nav-item mx-lg-2">
           <a class="nav-link" href="<?= base_url(); ?>friends">Friends</a>
@@ -109,7 +109,7 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-lg-end dropdown-menu-start" aria-labelledby="navbarDropdownMenuLink">
             <li>
-              <a class="dropdown-item" href="<?= base_url(); ?>profile"><i class="fas fa-user-alt me-2"></i>My profile</a>
+              <a class="dropdown-item" href="<?= base_url(); ?>profile/<?= $this->session->userdata('userId'); ?>"><i class="fas fa-user-alt me-2"></i>My profile</a>
             </li>
             <li>
               <a class="dropdown-item" href="<?= base_url(); ?>api/logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
