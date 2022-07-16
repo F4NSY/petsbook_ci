@@ -117,7 +117,7 @@ class Api extends CI_Controller {
 				';
 			}
 			$pictureUrl = base_url() . 'profile/' . $friends[$i]['userId'];
-            $cardImage = base_url() . 'assets/images/default_profile.jpg';
+            $cardImage = $friends[$i]['profilePicture'];
             $cardContent = '
 				<a href="' . base_url() . 'profile/' . $friends[$i]['userId'] . '">
 					<div class="card-title text-dark txt-overflow fw-bold">
