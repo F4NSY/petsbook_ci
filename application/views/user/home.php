@@ -1,5 +1,15 @@
+<style>
+    #postImageContainer input {
+        display: none;
+    }
+    #postImageLabel {
+        cursor: pointer;
+    }
+</style>
+
 <div class="container">
-    <div class="bg-light my-3 p-3 rounded-6">
+    <?php $attribute = array('id' => 'postingForm', 'class' => 'bg-light my-3 p-3 rounded-6', 'novalidate' => 'novalidate');
+          echo form_open('', $attribute); ?>
         <div class="py-2 border-bottom">
             <div class="d-flex align-items-center">
                 <img
@@ -10,18 +20,23 @@
                     style="object-fit: cover;"
                 />
                 <div class="flex-grow-1 fs-7">
-                    <input type="text" name="" id="" class="form-control form-control-lg" placeholder="What's on your mind?">
+                    <input type="text" name="postContent" id="postContent" class="form-control form-control-lg" placeholder="What's on your mind?">
                 </div>
             </div>
         </div>
         <div class="py-2 d-flex align-items-center justify-content-between">
             <div>
                 <i class="fas fa-video me-3 fa-lg"></i>
-                <i class="fas fa-camera fa-lg"></i>
+                <span id="postImageContainer">
+                    <label for="postImage" id="postImageLabel" class="me-2">
+                        <i class="fas fa-camera fa-lg"></i>
+                    </label>
+                    <input type="file" name="postImage" id="postImage" accept="image/*">
+                </span>
             </div>
-            <a href="#!" class="btn btn-primary">Submit</a>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
-    </div>
+    </form>
     <div id="home-page-contents">
         <div class="bg-light my-3 p-3 rounded-6">
             <div class="py-2">
@@ -70,3 +85,25 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#postingForm').submit(function(e) {
+        e.preventDefault();
+        if(($('#postContent').val() != "") || ($('#postImage').val() != "")) {
+		var formData = new FormData(this);
+		$.ajax({
+			url: environment.base_url + "api/insertPost",
+			type: "post",
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function () {
+				$('#postingForm').trigger('reset');
+			},
+			error: function (error) {
+				console.log(error);
+			},
+		});
+	}
+    })
+</script>

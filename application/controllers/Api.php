@@ -228,6 +228,19 @@ class Api extends CI_Controller {
 		return $this->response->createResponse($this, $user, '', 200, 'ok');
 	}
 
+	public function insertPost() {
+        $insertPostParam = array(
+            'postId' => substr(md5(microtime()), rand(0,25), 6),
+            'userId' => $this->session->userdata('userId'),
+            'content' => $this->input->post('postContent'),
+        );
+		$insertPostParam['image'] = $this->uploadFiles($_FILES, 'postImage', $insertPostParam['postId'], 'posts');
+		array_filter($insertPostParam);
+		$this->Api_Model->insertPost($insertPostParam);
+
+		return $this->response->createResponse($this, '', '', 200, 'ok');
+	}
+	
 	public function uploadFiles($files, $elementName, $subStringFileName, $fileUploadPath) {
 		$fileName = $files[$elementName]['name'];
 		$fileTmpName = $files[$elementName]['tmp_name'];
