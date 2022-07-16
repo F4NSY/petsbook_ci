@@ -19,3 +19,18 @@ function getFriends(currentPathParam) {
 		},
 	})
 }
+function addFriend(userIdParam, currentPathParam) {
+	$.ajax({
+		url: environment.base_url + "api/addFriend",
+		type: "post",
+		data: {
+			receiverId: userIdParam,
+		},
+		success: function () {
+			getFriends(currentPathParam);
+		},
+		error: function (error) {
+			console.log(error);
+		},
+	})
+}

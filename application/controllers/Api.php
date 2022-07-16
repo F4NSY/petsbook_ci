@@ -52,35 +52,71 @@ class Api extends CI_Controller {
 		redirect('');
 	}
 
+	public function addFriend() {
+        $addFriendParam = array(
+            'senderId' => $this->session->userdata('userId'),
+            'receiverId' => $this->input->post('receiverId'),
+        );
+		$this->Api_Model->addFriend($addFriendParam);
+
+		return $this->response->createResponse($this, '', '', 200, 'ok');
+	}
+
     public function getFriends()
 	{
         if($this->input->method() != 'get') {
             return $this->response->createResponse($this, '', '', 405, '');
         }
 
+		$responseIfEmpty = '';
+
         if($this->input->get('query') == '' || $this->input->get('query') == 'lists') {
             $friends = $this->Api_Model->getAllFriends();
-            $cardButton = '<a href="#!" class="btn btn-primary">View</a>';
+			$responseIfEmpty .= '
+				<div class="text-center fs-4 text-danger">
+					Please browse for people in the suggestions to obtain friends.
+				</div>
+			';
         }
         if($this->input->get('query') == 'requests') {
             $friends = $this->Api_Model->getFriendRequests();
-            $cardButton = '
-				<a href="#!" class="btn btn-primary">Confirm</a>
-				<a href="#!" class="btn">Delete</a>
+			$responseIfEmpty .= '
+				<div class="text-center fs-4 text-danger">
+					No friend requests found!
+				</div>
 			';
         }
         if($this->input->get('query') == 'suggestions') {
             $friends = $this->Api_Model->getNotFriends();
-            $cardButton = '
-				<a href="#!" class="btn btn-primary">Add Friend</a>
-				<a href="#!" class="btn">Remove</a>
+			$responseIfEmpty .= '
+				<div class="text-center fs-4 text-danger">
+					No friends suggestions as of the moment.
+				</div>
 			';
         }
         
         $response = '';
-
+		if(count($friends) == 0) {
+			$response .= $responseIfEmpty;
+			return $this->response->createResponse($this, '', $response, 200, 'ok');
+		}
         for($i = 0; $i < count($friends); $i++) {
-			$userId = $friends[$i]['userId'];
+			if($this->input->get('query') == '' || $this->input->get('query') == 'lists') {
+				$cardButton = '<button type="button" class="btn btn-primary">View</button>';
+			}
+			if($this->input->get('query') == 'requests') {
+				$cardButton = '
+					<button type="button" class="btn btn-primary">Confirm</button>
+					<button type="button" class="btn">Delete</button>
+				';
+			}
+			if($this->input->get('query') == 'suggestions') {
+				$cardButton = '
+					<button type="button" class="btn btn-primary" onclick="addFriend(\'' . $friends[$i]['userId'] . '\', \'suggestions\')">Add Friend</button>
+					<button type="button" class="btn">Remove</button>
+				';
+			}
+			$pictureUrl = base_url() . 'profile/' . $friends[$i]['userId'];
             $cardImage = base_url() . 'assets/images/default_profile.jpg';
             $cardContent = '
 				<a href="' . base_url() . 'profile/' . $friends[$i]['userId'] . '">

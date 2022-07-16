@@ -30,6 +30,14 @@ class Api_Model extends CI_Model {
 		return $this->db->get_where('users', $param)->result_array();
 	}
 
+	public function addFriend($param){
+		if($this->db->insert('user_friends', $param)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	public function getAllFriends(){
 		$query = "SELECT users.* FROM users LEFT JOIN user_friends ON users.userId = user_friends.senderId OR users.userId = user_friends.receiverId WHERE user_friends.id IS NOT NULL AND user_friends.status = 'Accepted' AND ((user_friends.senderId = '" . $this->session->userdata('userId') . "' AND user_friends.receiverId = users.userId) OR (user_friends.receiverId = '" . $this->session->userdata('userId') . "' AND user_friends.senderId = users.userId));";
 
