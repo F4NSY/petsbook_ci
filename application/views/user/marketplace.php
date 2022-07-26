@@ -19,7 +19,9 @@
                     </div>
                 </a>
                 <div class="d-grid">
-                    <button class="btn btn-primary btn-sm">Create new listing</button>
+                    <button id="marketplaceButton" type="button" class="btn btn-primary btn-sm" data-mdb-toggle="modal" data-mdb-target="#marketplaceModal">
+                        Create new listing 
+                    </button>
                 </div>
             </div>
         </div>
@@ -30,3 +32,4 @@
     </div>
 </div>
 
+<?php include APPPATH . 'views/user/modals/marketplace-modal.php' ;?>
