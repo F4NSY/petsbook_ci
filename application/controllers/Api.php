@@ -102,7 +102,7 @@ class Api extends CI_Controller {
 		}
         for($i = 0; $i < count($friends); $i++) {
 			if($this->input->get('query') == '' || $this->input->get('query') == 'lists') {
-				$cardButton = '<button type="button" class="btn btn-primary">View</button>';
+				$cardButton = '<a href="' . base_url() . 'profile/' . $friends[$i]['userId'] . '" class="btn btn-primary">View</a>';
 			}
 			if($this->input->get('query') == 'requests') {
 				$cardButton = '
@@ -113,7 +113,6 @@ class Api extends CI_Controller {
 			if($this->input->get('query') == 'suggestions') {
 				$cardButton = '
 					<button type="button" class="btn btn-primary" onclick="addFriend(\'' . $friends[$i]['userId'] . '\', \'suggestions\')">Add Friend</button>
-					<button type="button" class="btn">Remove</button>
 				';
 			}
 			$pictureUrl = base_url() . 'profile/' . $friends[$i]['userId'];
@@ -264,13 +263,94 @@ class Api extends CI_Controller {
 		return $this->response->createResponse($this, $user, '', 200, 'ok');
 	}
 
+	public function getPosts() {
+		$response = '';
+		$posts = $this->Api_Model->getPosts();
+		if(count($posts) == 0) {
+			$response .= '
+				<div class="text-center fs-4 text-danger">
+					No Posts found!
+				</div>
+			';
+			return $this->response->createResponse($this, '', $response, 200, 'ok');
+		}
+		foreach($posts as $post) {
+			$response .= '
+				<div class="bg-light my-3 p-3 rounded-6">
+					<div class="py-2">
+						<div class="d-flex align-items-center">
+							<img
+								src="' . $post['profilePicture'] . '"
+								class="rounded-circle me-3"
+								height="45"
+								width="45"
+								style="object-fit: cover;"
+							/>
+							<div class="fs-7">
+								<div class="fw-bold">
+									' . $post['firstName'] . ' ' . $post['lastName'] . '
+								</div>
+								<div>
+									50mins
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="py-2">
+						' . $post['content'] . '
+					</div>'
+					. ($post['image'] != '' || $post['video'] != '' ? '<div class="row" style="padding: 12px 12px 0px 12px;">
+						<div class="container mb-4 p-0">
+							<div class="swiper">
+							<div class="swiper-wrapper">'
+								. ($post['image'] != '' ? '<div class="swiper-slide px-1 d-flex justify-content-center align-items-center">
+									<img class="swiperImg" src="' . base_url() . 'uploads/posts/images/' . $post['image'] . '">
+								</div>' : '') .
+								($post['video'] != '' ? '<div class="swiper-slide px-1 d-flex justify-content-center align-items-center">
+									<iframe width="100%" height="300px" src="' . base_url() . 'uploads/posts/videos/' . $post['video'] . '" title="YouTube video" allowfullscreen></iframe>
+								</div>' : '') .
+							'</div>
+
+							<div class="swiper-button-prev"></div>
+							<div class="swiper-button-next"></div>
+
+							</div>
+						</div>
+					</div>' : '') .
+					'<div class="py-2 border-bottom border-top">
+						<div class="row text-center">
+							<div class="col">Like</div>
+							<div class="col">Comment</div>
+						</div>
+					</div>
+					<div class="py-2">
+						<div class="d-flex align-items-center">
+							<img
+								src="' . $this->session->userdata('profilePicture') . '"
+								class="rounded-circle me-3"
+								height="35"
+								width="35"
+								style="object-fit: cover;"
+							/>
+							<div class="flex-grow-1 fs-7">
+								<input type="text" name="" id="" class="form-control form-control" placeholder="Write a comment...">
+							</div>
+						</div>
+					</div>
+				</div>
+			';
+		}
+		return $this->response->createResponse($this, '', $response, 200, 'ok');
+	}
+
 	public function insertPost() {
         $insertPostParam = array(
             'postId' => substr(md5(microtime()), rand(0,25), 6),
             'userId' => $this->session->userdata('userId'),
             'content' => $this->input->post('postContent'),
         );
-		$insertPostParam['image'] = $this->uploadFiles($_FILES, 'postImage', $insertPostParam['postId'], 'posts');
+		$insertPostParam['image'] = $this->uploadFiles($_FILES, 'postImage', $insertPostParam['postId'], 'posts/images');
+		$insertPostParam['video'] = $this->uploadFiles($_FILES, 'postVideo', $insertPostParam['postId'], 'posts/videos');
 		array_filter($insertPostParam);
 		$this->Api_Model->insertPost($insertPostParam);
 
