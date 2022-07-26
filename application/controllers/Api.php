@@ -19,6 +19,7 @@ class Api extends CI_Controller {
 			'isLoggedIn' => TRUE
 		);
 		$this->session->set_userdata($sessionArray);
+		$this->Api_Model->logout($sessionArray['userId'], 'Active', '');
 		return $this->response->createResponse($this, '', '', 200, 'ok');
 	}
 
@@ -48,6 +49,7 @@ class Api extends CI_Controller {
 	}
 
 	public function logout() {
+		$this->Api_Model->logout($this->session->userdata('userId'), 'Inactive', date("n/j/Y, g:i:s A"));
 		$this->session->sess_destroy();
 		redirect('');
 	}
@@ -159,7 +161,7 @@ class Api extends CI_Controller {
 			}
 			$user = $this->Api_Model->getUser($userId)[0];
 			$response .= '
-				<a href="" class="link-dark" onclick="openConversation(event, \'' . $conversation['conversationId'] . '\', \'' .  $user['userId'] . '\')">
+				<a href="" class="link-dark" onclick="openConversation(event, \'' .  $user['userId'] . '\')">
 					<div class="mb-4 d-flex align-items-center pe-3">
 						<img
 							src="' . $user['profilePicture'] . '"
@@ -253,12 +255,7 @@ class Api extends CI_Controller {
 	}
 
 	public function getUser() {
-		$users = $this->Api_Model->getMessages($this->input->get('getUserParam'));
-		$getUserParam['userId'] = $users[0]['senderId'];
-		if($getUserParam['userId'] == $this->session->userdata('userId')) {
-			$getUserParam['userId'] = $users[0]['receiverId'];
-		}
-		$user = $this->Api_Model->getUser($getUserParam);
+		$user = $this->Api_Model->getUser(array('userId' => $this->input->get('userId')));
 
 		return $this->response->createResponse($this, $user, '', 200, 'ok');
 	}

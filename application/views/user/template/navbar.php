@@ -6,7 +6,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <div class="d-flex align-items-center col-lg-3">
-      <a class="navbar-brand" href="<?= base_url(); ?>">Navbar</a>
+      <a class="navbar-brand" href="<?= base_url(); ?>">Petsbook</a>
       <div class="d-none d-lg-block">
         <input type="search" id="searchBox" class="form-control" placeholder="Search PetsBook" />
       </div>

@@ -18,6 +18,12 @@ class Api_Model extends CI_Model {
 		}
 	}
 
+	public function logout($id, $status, $lastSeen){
+		$this->db->set(array('status' => $status, 'lastSeen' => $lastSeen));
+        $this->db->where('userId', $id);
+        $this->db->update('users');
+	}
+
 	public function isExistingUser($param){
 		if($this->db->get_where('users', $param)->num_rows() > 0){
 			return true;

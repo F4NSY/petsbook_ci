@@ -31,8 +31,7 @@ function createChatHeader(hasBack, user) {
                         <div class="fw-bold">
                             ${ user.firstName } ${ user.lastName }
                         </div>
-                        <div>
-                            Active 6hrs ago
+                        <div id="lastSeen">
                         </div>
                     </div>
                     <div>
