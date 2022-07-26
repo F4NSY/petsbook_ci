@@ -107,7 +107,7 @@ class Api_Model extends CI_Model {
 	}
 
 	public function getPosts() {
-		$query = "SELECT * FROM posts LEFT JOIN users ON posts.userId = users.userId WHERE posts.userId = '" . $this->session->userdata('userId') . "' OR posts.userId IN (SELECT users.userId FROM users LEFT JOIN user_friends ON users.userId = user_friends.senderId OR users.userId = user_friends.receiverId WHERE user_friends.id IS NOT NULL AND user_friends.status = 'Accepted' AND ((user_friends.senderId = '" . $this->session->userdata('userId') . "' AND user_friends.receiverId = users.userId) OR (user_friends.receiverId = '" . $this->session->userdata('userId') . "' AND user_friends.senderId = users.userId))) ORDER BY posts.createdAt DESC;";
+		$query = "SELECT users.profilePicture, users.firstName, users.lastName, posts.createdAt, posts.content, posts.image, posts.video FROM posts LEFT JOIN users ON posts.userId = users.userId WHERE posts.userId = '" . $this->session->userdata('userId') . "' OR posts.userId IN (SELECT users.userId FROM users LEFT JOIN user_friends ON users.userId = user_friends.senderId OR users.userId = user_friends.receiverId WHERE user_friends.id IS NOT NULL AND user_friends.status = 'Accepted' AND ((user_friends.senderId = '" . $this->session->userdata('userId') . "' AND user_friends.receiverId = users.userId) OR (user_friends.receiverId = '" . $this->session->userdata('userId') . "' AND user_friends.senderId = users.userId))) ORDER BY posts.createdAt DESC;";
 
 		return $this->db->query($query)->result_array();
 	}

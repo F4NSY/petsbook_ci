@@ -20,6 +20,7 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
     <script type="text/javascript" src="<?= base_url(); ?>assets/js/config/config.js"></script>
+    <script type="text/javascript" src="<?= base_url(); ?>assets/js/script.js"></script>
 </head>
 <body>
     

@@ -287,8 +287,7 @@ class Api extends CI_Controller {
 								<div class="fw-bold">
 									' . $post['firstName'] . ' ' . $post['lastName'] . '
 								</div>
-								<div>
-									50mins
+								<div class="post-time" data-post-time="' . $post['createdAt'] . '">
 								</div>
 							</div>
 						</div>
@@ -308,8 +307,8 @@ class Api extends CI_Controller {
 								</div>' : '') .
 							'</div>
 
-							<div class="swiper-button-prev"></div>
-							<div class="swiper-button-next"></div>
+							<!-- <div class="swiper-button-prev"></div> -->
+							<!-- <div class="swiper-button-next"></div> -->
 
 							</div>
 						</div>

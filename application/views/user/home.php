@@ -37,45 +37,4 @@
     </div>
 </div>
 
-<script>
-    getPosts();
-    const swiper = new Swiper('.swiper', {
-        // Navigation arrows
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-    });
-    function getPosts() {
-        $.ajax({
-                url: environment.base_url + "api/getPosts",
-                type: "get",
-                success: function (response) {
-                    $('#home-page-contents').html(response.html);
-                },
-                error: function (error) {
-                    console.log(error);
-                },
-            });
-    }
-    $('#postingForm').submit(function(e) {
-        e.preventDefault();
-        if(($('#postContent').val() != "") || ($('#postImage').val() != "") || ($('#postVideo').val() != "")) {
-            var formData = new FormData(this);
-            $.ajax({
-                url: environment.base_url + "api/insertPost",
-                type: "post",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function () {
-                    $('#postingForm').trigger('reset');
-                    getPosts();
-                },
-                error: function (error) {
-                    console.log(error);
-                },
-            });
-        }
-    })
-</script>
+<script type="text/javascript" src="<?= base_url(); ?>assets/js/home.js"></script>
