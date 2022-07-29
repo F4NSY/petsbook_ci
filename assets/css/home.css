@@ -1,0 +1,11 @@
+.post-file-container input {
+	display: none;
+}
+.swiperImg {
+	width: 100%;
+	height: 300px;
+	object-fit: contain;
+}
+.liked {
+    color: blue
+}

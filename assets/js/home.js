@@ -1,3 +1,4 @@
+var calculatePostTimeInterval;
 getPosts();
 const swiper = new Swiper(".swiper", {
 	// Navigation arrows
@@ -12,12 +13,18 @@ function getPosts() {
 		type: "get",
 		success: function (response) {
 			$("#home-page-contents").html(response.html);
-			var calculatePostTimeInterval = setInterval(() => {
+			calculatePostTimeInterval = setInterval(() => {
 				$(".post-time").each(function () {
 					var postTime = $(this).data("post-time");
 					if (calculatePostTime(postTime) == postTime)
 						$(this).removeClass("post-time");
 					$(this).text(calculatePostTime(postTime));
+				});
+				$(".like-post").each(function () {
+					$(this).click(function (event) {
+						event.stopImmediatePropagation();
+						$(this).toggleClass("liked");
+					});
 				});
 			}, 1000);
 		},
@@ -25,6 +32,9 @@ function getPosts() {
 			console.log(error);
 		},
 	});
+}
+function comment(postIdParam) {
+	$(`#comment-${postIdParam}`).focus();
 }
 $("#postingForm").submit(function (e) {
 	e.preventDefault();

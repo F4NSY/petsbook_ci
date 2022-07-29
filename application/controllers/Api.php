@@ -64,6 +64,16 @@ class Api extends CI_Controller {
 		return $this->response->createResponse($this, '', '', 200, 'ok');
 	}
 
+	public function confirmFriend() {
+        $addFriendParam = array(
+            'senderId' => $this->input->post('senderId'),
+            'receiverId' => $this->session->userdata('userId'),
+        );
+		$this->Api_Model->confirmFriend($addFriendParam);
+
+		return $this->response->createResponse($this, '', '', 200, 'ok');
+	}
+
     public function getFriends()
 	{
         if($this->input->method() != 'get') {
@@ -108,7 +118,7 @@ class Api extends CI_Controller {
 			}
 			if($this->input->get('query') == 'requests') {
 				$cardButton = '
-					<button type="button" class="btn btn-primary">Confirm</button>
+					<button type="button" class="btn btn-primary" onclick="confirmFriend(\'' . $friends[$i]['userId'] . '\', \'requests\')">Confirm</button>
 					<button type="button" class="btn">Delete</button>
 				';
 			}
@@ -315,8 +325,8 @@ class Api extends CI_Controller {
 					</div>' : '') .
 					'<div class="py-2 border-bottom border-top">
 						<div class="row text-center">
-							<div class="col">Like</div>
-							<div class="col">Comment</div>
+							<div class="col cursor-pointer like-post" data-like-post="' . $post['postId'] . '"><i class="fas fa-thumbs-up me-2"></i>Like</div>
+							<div class="col cursor-pointer" onclick="comment(\'' . $post['postId'] . '\')"><i class="fas fa-comment-alt me-2"></i>Comment</div>
 						</div>
 					</div>
 					<div class="py-2">
@@ -328,9 +338,10 @@ class Api extends CI_Controller {
 								width="35"
 								style="object-fit: cover;"
 							/>
-							<div class="flex-grow-1 fs-7">
-								<input type="text" name="" id="" class="form-control form-control" placeholder="Write a comment...">
-							</div>
+							<form class="d-flex flex-grow-1 fs-7">
+								<input type="text" name="comment" id="comment-' . $post['postId'] . '" class="form-control form-control input-content" placeholder="Write a comment...">
+								<button class="submit bg-primary" type="submit"><i class="fab fa-telegram-plane"></i></button>
+							</form>
 						</div>
 					</div>
 				</div>

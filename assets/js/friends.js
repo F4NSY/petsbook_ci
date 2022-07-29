@@ -34,3 +34,18 @@ function addFriend(userIdParam, currentPathParam) {
 		},
 	})
 }
+function confirmFriend(userIdParam, currentPathParam) {
+	$.ajax({
+		url: environment.base_url + "api/confirmFriend",
+		type: "post",
+		data: {
+			senderId: userIdParam,
+		},
+		success: function () {
+			getFriends(currentPathParam);
+		},
+		error: function (error) {
+			console.log(error);
+		},
+	})
+}

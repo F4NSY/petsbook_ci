@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="<?= base_url(); ?>assets/css/home.css">
 <div class="container">
     <?php $attribute = array('id' => 'postingForm', 'class' => 'bg-light my-3 p-3 rounded-6', 'novalidate' => 'novalidate', 'autocomplete' => 'off');
           echo form_open('', $attribute); ?>

@@ -1,4 +1,6 @@
 :root {
+	--primary-color: #1266f1;
+	--secondary-color: #6c757d;
 	--navbar-height: 58.594px;
 	--vh-100-less-navbar: calc(100vh - var(--navbar-height));
 }
@@ -56,15 +58,20 @@
 	width: 45px;
 	background-color: rgba(33, 37, 37, 0.15);
 }
+.submit {
+	height: 40px;
+	width: 55px;
+	border: none;
+	border-radius: 0 5px 5px 0;
+	color: white;
+}
+.input-content {
+	height: 40px;
+	width: calc(100% - 58px);
+	border-radius: 5px 0 0 5px;
+	outline: none;
+}
 .spinner-custom-size {
 	width: 12px;
 	height: 12px;
-}
-.post-file-container input {
-	display: none;
-}
-.swiperImg {
-	width: 100%;
-	height: 300px;
-	object-fit: contain;
 }

@@ -50,13 +50,13 @@ function createChatHeader(hasBack, user) {
             </div>
             <form id="chatForm" class="chat-typing-area px-3 d-flex align-items-center justify-content-between" enctype="multipart/form-data">
                 <div id="chatImageContainer">
-                    <label for="chatImage" id="chatImageLabel" class="me-2">
+                    <label for="chatImage" id="chatImageLabel" class="bg-primary me-2">
                         <i class="fas fa-images"></i>
                     </label>
                     <input type="file" name="chatImage" id="chatImage" accept="image/*">
                 </div>
-                <input type="text" id="chatContent" name="chatContent" autocomplete="off" placeholder="Type something...">
-                <button id="submitChat" type="submit"><i class="fab fa-telegram-plane"></i></button>
+                <input type="text" class="form-control form-control input-content" name="chatContent" autocomplete="off" placeholder="Type something...">
+                <button class="submit bg-primary" type="submit"><i class="fab fa-telegram-plane"></i></button>
             </form>
         </div>
         `;
